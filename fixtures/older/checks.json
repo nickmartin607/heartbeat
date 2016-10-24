@@ -1,0 +1,4 @@
+[
+    {"pk": 1, "model": "checks.check", "fields": {"host": 1, "service": 1, "description": "", "status": false}},
+    {"pk": 2, "model": "checks.check", "fields": {"host": 2, "service": 2, "description": "", "status": false}}
+]

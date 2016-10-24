@@ -1,0 +1,23 @@
+.main { padding: 20px; }
+.main .page-header { margin-top: 0; }
+
+body { padding-top: 50px; }
+
+.sub-header { padding-bottom: 10px; border-bottom: 1px solid #eee; }
+
+.form-group { margin-bottom: 15px; }
+
+.placeholders { margin: 30px auto; text-align: center;}
+.placeholders h4 { margin-bottom: 0; }
+.placeholder { margin-bottom: 20px; }
+.placeholder img { display: inline-block; border-radius: 50%; }
+
+.table th { font-size: 16px; text-align: center; }
+.table td { font-size: 14px; text-align: center; }
+.narrow { width: 7%; }
+.border-right { border-right: 1px solid #e6e6e6; }
+.border-left { border-left: 1px solid #e6e6e6; }
+
+@media (min-width: 768px) {
+    .main { padding-right: 40px; padding-left: 40px; }
+}

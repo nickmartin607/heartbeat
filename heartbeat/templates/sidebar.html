@@ -1,0 +1,42 @@
+{% load tags %}
+
+<div class="col-sm-3 col-md-2 sidebar">
+    
+    <ul class="nav nav-sidebar">
+        <li class="nav-header {% is_active request 'inject:all' %}">
+            <a href="{% url 'inject:all' %}">Injects</a>
+        </li>
+        {% if user.is_staff %}
+            <li class="{% is_active request 'inject:create' %}">
+                <a href="{% url 'inject:create' %}">Create</a>
+            </li>
+        {% endif %}
+    </ul>
+    
+    {% if user.is_staff %}
+        <ul class="nav nav-sidebar">
+            <li class="nav-header {% is_active request 'host:all' %}">
+                <a href="{% url 'host:all' %}">Hosts</a>
+            </li>
+            <li class="{% is_active request 'host:create' %}">
+                <a href="{% url 'host:create' %}">Create</a>
+            </li>
+        </ul>
+    {% endif %}
+        
+    
+    <ul class="nav nav-sidebar">
+        <li class="nav-header {% is_active request 'service:all' %}">
+            <a href="{% url 'service:all' %}">Services</a>
+        </li>
+        {% if user.is_staff %}
+            <li class="{% is_active request 'service:create' %}">
+                <a href="{% url 'service:create' %}">Create</a>
+            </li>
+        {% endif %}
+    </ul>
+    
+    <ul class="nav nav-sidebar">
+        <li class="bottom-ul"><a href="https://github.com/nickmartin607/heartbeat">&copy; 2016 Nick Martin</a></li>
+    </ul>
+</div>

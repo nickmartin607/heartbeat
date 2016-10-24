@@ -1,0 +1,5 @@
+[
+    {"model": "teams.team", "pk": 1, "fields": {"total_points": 0}},
+    {"model": "teams.team", "pk": 2, "fields": {"total_points": 0}},
+    {"model": "teams.team", "pk": 3, "fields": {"total_points": 0}}
+]

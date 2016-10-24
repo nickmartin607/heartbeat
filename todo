@@ -1,0 +1,51 @@
+######################################## APPS ##################################
+Build views/urls/forms for:         heartbeat.checks.Check
+                                    heartbeat.tasks.Action
+                                    heartbeat.teams.Team
+Add 'time-remaining' function to Tasks
+Add forms to awards specific number of points for Teams
+Add action button dictionary to:    *.forms
+Build Stats Functions and Summary View Page into Team
+################################################################################
+
+
+######################################## CORE.TABLES ###########################
+Reorganize, Change output to 2D List rather than table html tags
+Use pagination?
+Add row at bottom to add new element?
+Figure out how to re-sort without re-render?
+################################################################################
+
+
+######################################## CORE.FORMS ############################
+Add function to build action buttons from dictionary
+################################################################################
+
+
+######################################## CORE.VIEWS ############################
+Possibly create 'core.views.View':      Add generalized ownership check?
+                                        Meta fields?
+Fix Date/Time Input and Display Formatting
+################################################################################
+
+
+
+
+######################################## HTML ##################################
+Change render functions to not include primary/core outer tags, move into HTML files
+Popover/Hover Forms?
+Popover/Hover Alerts/Errors?
+Centered Fields
+Redo Theme
+Seperate out CSS Files
+################################################################################
+
+
+######################################## MISC ##################################
+Expand on Admin Pages Organization/Layout/Display
+################################################################################
+
+
+######################################## EXTRA MODULES #########################
+Admin Page Templates
+################################################################################
