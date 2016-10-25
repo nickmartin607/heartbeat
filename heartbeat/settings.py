@@ -5,7 +5,6 @@ ENVIRONMENT = 'dev'         # Either 'dev' or 'prod'
 ################## Paths/Files/Names ###########################################
 PROJECT_PATH = dirname(abspath(__file__))       # Inner directory containing settings.py
 BASE_PATH = dirname(PROJECT_PATH)               # Outer directory containing manage.py
-PARENT_PATH = durname(BASE_PATH)
 PROJECT_NAME = basename(BASE_PATH)
 STATIC_PATH = join(BASE_PATH, 'static')
 ################################################################################
@@ -78,7 +77,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': join(PARENT_PATH, 'db.sqlite3')
+        'NAME': join(PROJECT_PATH, 'db.sqlite3')
     }
 }
 ################################################################################

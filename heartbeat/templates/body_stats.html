@@ -1,29 +1,23 @@
 <h1 class="page-header">Dashboard</h1>
 <div class="row placeholders">
-    <div class="col-xs-6 col-sm-3 placeholder">
-    </div>
-    <div class="col-xs-6 col-sm-3 placeholder">
-        <h1 style="font-size:60px"><span class="label label-default">{{ blue_team.total_points }}</span></h1>
-        <h2>
+    {% for team in teams %}
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <h1 style="font-size:60px">
+                <span class="label label-default">
+                    {{ team.total_points }}
+                </span>
+            </h1>
+            <h2>
+                {% if user.is_staff %}
+                    <a href="{% url 'team:perform-checks' id=team.pk %}">{{ team.name }}</a>
+                {% else %}
+                    {{ blue_team }}
+                {% endif %}
+            </h2>
             {% if user.is_staff %}
-                <a href="{% url 'team:perform-checks' id=2 %}">{{ blue_team }}</a>
-            {% else %}
-                {{ blue_team }}
+                <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='award' id=team.pk points=100 %}">Award Points</a></div>
+                <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='deduct' id=team.pk points=100 %}">Deduct Points</a></div>
             {% endif %}
-        </h2>
-        {% if user.is_staff %}
-            <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='award' id=2 points=100 %}">Award Points</a></div>
-            <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='deduct' id=2 points=100 %}">Deduct Points</a></div>
-        {% endif %}
-    </div>
-    <div class="col-xs-6 col-sm-3 placeholder">
-        <h1 style="font-size:60px"><span class="label label-default">{{ red_team.total_points }}</span></h1>
-        <h2>
-            {{ red_team }}
-        </h2>
-        {% if user.is_staff %}
-            <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='award' id=3 points=100 %}">Award Points</a></div>
-            <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='deduct' id=3 points=100 %}">Deduct Points</a></div>
-        {% endif %}
-    </div>
+        </div>
+    {% endfor %}
 </div>

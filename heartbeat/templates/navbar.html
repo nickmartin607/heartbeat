@@ -17,7 +17,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <li><a style="color:yellow" {% if user.is_superuser %}href="{% url 'admin:index' %}"{% endif %}>
-                        {% user_group id=user.id %}
+                        {{ request.user.username }}
                     </a></b></li>
                     <li><a href="{% url 'passwd' %}">Change Password</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>

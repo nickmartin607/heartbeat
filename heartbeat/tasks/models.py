@@ -5,6 +5,7 @@ from heartbeat.teams.models import Team
 
 
 class Task(Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name="Team")
     subject = models.CharField(max_length=100, verbose_name="Subject")
     status = models.BooleanField(default=False, verbose_name="Status")
     point_value = models.PositiveIntegerField(default=100, verbose_name="Point Value")
@@ -23,7 +24,7 @@ class Task(Model):
     
         
 class Inject(Task):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='injects', related_query_name='inject', verbose_name="Team")
+    # team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='injects', related_query_name='inject', verbose_name="Team")
     details = models.TextField(max_length=600, verbose_name="Details")
     enabled = models.BooleanField(default=False, verbose_name="Enabled?")
     available = models.DateTimeField(blank=True, null=True, verbose_name="Available")
@@ -45,17 +46,17 @@ class Inject(Task):
         return False
     
     class Meta:
-        permissions = [('access_inject', 'Can Access Injects')]
+        permissions = [('view_inject', 'Can view inject')]
     
         
 class Action(Task):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='actions', related_query_name='action', verbose_name="Team")
+    # team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='actions', related_query_name='action', verbose_name="Team")
     
     def save(self, *args, **kwargs):
         super(Action, self).save(*args, **kwargs)
         self.complete()
     
     class Meta:
-        permissions = [('access_action', 'Can Access Actions')]
+        permissions = [('view_action', 'Can view action')]
         
 

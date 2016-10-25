@@ -76,63 +76,12 @@ class Check(Model):
         except Exception as e:
             return (False, 'Port Connection Failure - Error: "{}"'.format(e))
             
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-            
-            
-            
-            
-            
-        # if self.host.is_windows():
-        #     port = 135
-        #     (status, message) = port_connect(self.host.ip, port)
-        # else:
-        #     (status, message) = ping(self.host.ip)
-            # try:
-            #     (status, message) = PLUGINS.get(self.service.protocol)(self)
-            # except:
-            #     (status, message) = port_connect(self.host.ip, self.service.port)
-    # def ping(self):
-    #     ping_count, ping_wait = '1', '1'
-    #     try:
-    #         cmd = 'ping -c {} -w {} {}'.format(ping_count, ping_wait, self.host.ip)
-    #         return_value = subprocess.check_call(
-    #             cmd.split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    #         if return_value == 0:
-    #             return (True, 'Ping Succeeded - Host is Alive')
-    #         else:
-    #             return (False, 'Ping Succeeded - Host is Down')
-    #     except Exception as e:
-    #         return (False, 'Ping Failed - Error: "{}"'.format(e))
-    # def port_connect(self, windows=False):
-    #     windows_port, timeout = 135, 5
-    #     try:
-    #         if self.host.is_windows():
-    #             port = windows_port
-    #         else:
-    #             port = int(self.service.port)
-    #         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #         sock.settimeout(timeout)
-    #         return_value = sock.connect_ex((self.host.ip, port))
-    #         if return_value == 0:
-    #             return (True, 'Port {} Connection Succeeded'.format(port))
-    #         else:
-    #             return (False, 'Port {} Connection Failed'.format(port))
-    #     except Exception as e:
-    #         return (False, 'Port Connection Failure - Error: "{}"'.format(e))
-
     class Meta:
-        permissions = [('access_team', 'Can Access Teams')]
-        
+        permissions = [
+            ('view_check', 'Can view check'),
+            ('perform_check', 'Can perform check'),
+        ]
+
     
         
 # DNS

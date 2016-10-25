@@ -42,7 +42,7 @@ class Host(System):
         return False
     
     class Meta:
-        permissions = [('access_host', 'Can Access Hosts')]
+        permissions = [('access_host', 'Can view host')]
 
 
 class Service(System):
@@ -87,7 +87,7 @@ class Service(System):
         return False
 
     class Meta:
-        permissions = [('access_service', 'Can Access Services')]
+        permissions = [('view_service', 'Can view service')]
 
 
 class Credential(Model):
@@ -101,4 +101,4 @@ class Credential(Model):
         return self.service.can_view(user)
 
     class Meta:
-        permissions = [('passwd_credential', 'Can Change Service Credentials')]
+        permissions = [('view_credential', 'Can view credential')]

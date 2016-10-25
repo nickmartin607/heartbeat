@@ -4,7 +4,8 @@ from core.models import Model
 
 
 class Team(Model):
-    group = models.OneToOneField(Group, primary_key=True, on_delete=models.CASCADE, verbose_name="Group Account")
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name="Group Account")
+    name = models.CharField(max_length=30, verbose_name="Name")
     total_points = models.PositiveIntegerField(default=0, verbose_name="Points")
     
     def __str__(self):
@@ -19,7 +20,7 @@ class Team(Model):
         self.save()
     
     class Meta:
-        permissions = [('access_team', 'Can Access Teams')]
+        permissions = [('view_team', 'Can view team')]
 
 
 class Account(models.Model):
@@ -27,9 +28,11 @@ class Account(models.Model):
     
     def _team(self):
         try:
-            return self.user.groups.all()[0].team
+            return self.user.groups.all()[0]
         except:
             return None
+            
+    team = property(_team)
 
 def create_account(sender, instance, created, **kwargs):
     if created:
