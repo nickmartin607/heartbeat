@@ -6,10 +6,7 @@ from .tables import InjectTable
 
 
 def InjectList(request):
-    if not request.user.is_staff:
-        elements = Inject.objects.filter(team=request.user.account._team()).filter(enabled=True).filter(status=False)
-    else:
-        elements = Inject.objects.all()
+    elements = Inject.objects.all()
     table = InjectTable(model=Inject, name="Injects", elements=elements)
     return ListView(request, Inject, table)
 

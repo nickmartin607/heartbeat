@@ -1,15 +1,15 @@
+SYMBOLS = {
+    '+enabled': '&#10003;', '-enabled': '&#10005;',
+    'asc': '&#8642;',       'desc': '&#8638;',
+}
 GLYPHICONS = {
     '+status': 'fire',      '-status': 'thumbs-down',
     'delete': 'trash',      'modify': 'pencil',
-    'passwd': 'sunglasses',
-}
-SYMBOLS = {
-    '+enabled': '&#10003;', '-enabled': '&#10003;',
-    'asc': '&#8638;',       'desc': '&#8642;',
+    'check': 'refresh',     'passwd': 'sunglasses',
 }
 COLORS = {
     '+status': 'red',       '-status': 'lightgrey',
-    '+enabled': 'blue',     '-enabled': 'grey',
+    '+enabled': 'blue',     '-enabled': 'lightgrey',
     'delete': 'green',      'modify': 'purple',
     'passwd': 'black',
 }

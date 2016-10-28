@@ -1,5 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {{ table|safe }}
+    <table class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                {% for column in table.header %}
+                    {{ column|safe }}
+                {% endfor %}
+                </tr>
+            </thead>
+            
+            <tbody>
+            {% for element in table.body %}
+                <tr>
+                {% for column in element %}
+                    {{ column|safe }}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </table>
 {% endblock %}

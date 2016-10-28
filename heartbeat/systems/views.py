@@ -9,8 +9,6 @@ from .tables import HostTable, ServiceTable
 
 def HostList(request):
     elements = Host.objects.order_by('-status', '-enabled')
-    if not request.user.is_staff:
-        elements = elements.filter(enabled=True)
     table = HostTable(model=Host, name="All Hosts", elements=elements)
     return ListView(request, Host, table)
     
@@ -25,8 +23,6 @@ def HostCheck(request, id):
 
 def ServiceList(request):
     services = Service.objects.order_by('-status', '-enabled')
-    if not request.user.is_staff:
-        services = services.filter(enabled=True)
     table = ServiceTable(model=Service, name="Services", elements=services)
     return ListView(request, Service, table)
     
@@ -39,15 +35,14 @@ def ServiceCheck(request, id):
     instance.do_check()
     return redirect(Service._namespace('all'))
 
-@has_permission('passwd', Credential)
+@has_permission('modify', Credential)
 def ServicePasswd(request, id):
     next_url = Service._url('passwd', args=[id])
     instance = Service.objects.get(pk=id)
     try:
         credential = Credential.objects.get(pk=id)
     except:
-        credential = Credential(service=instance)
-        credential.save()
+        return redirect('404')
     if request.method == 'POST':
         form = CredentialForm(request.POST, instance=credential, next_url=next_url)
         new_password = str(request.POST.get('password')).strip()

@@ -1,4 +1,30 @@
-import dns, ftplib, socket
+import dns, ftplib, socket, subprocess
+
+def ping(host, ping_count=1, ping_wait=1):
+    cmd = ['ping', '-c', str(ping_count), '-w', str(ping_wait), host.ip]
+    try:
+        return_value = subprocess.check_call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if return_value == 0:
+            return (True, 'Ping Succeeded - Host is Alive')
+        else:
+            return (False, 'Ping Succeeded - Host is Down')
+    except Exception as e:
+        return (False, 'Ping Failed - Error: "{}"'.format(e))
+
+def port_connect(service=None, ip=None, port=None, timeout=5):
+    try:
+        ip = service.host.ip if service else ip
+        port = port or service.port
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        return_value = sock.connect_ex((ip, int(port)))
+        if return_value == 0:
+            return (True, 'Port {} Connection Succeeded'.format(port))
+        else:
+            return (False, 'Port {} Connection Failed'.format(port))
+    except Exception as e:
+        return (False, 'Port Connection Failure - Error: "{}"'.format(e))
+
 
 def ftp_auth(check):
     anonymous = True

@@ -2,6 +2,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 
 class Model(models.Model):
+    enabled = models.BooleanField(default=True, verbose_name="Enabled?")
+    
     @classmethod
     def _appname(cls):
         return cls._meta.app_label
@@ -21,6 +23,9 @@ class Model(models.Model):
     @classmethod
     def _url(cls, action, args=[]):
         return reverse(cls._namespace(action), args=args)
+        
+    appname = property(_appname)
+    modelname = property(_modelname)
     
     class Meta:
         abstract = True

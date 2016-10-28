@@ -13,48 +13,36 @@ class Task(Model):
 
     def __str__(self):
         return self.subject
+    def toggle(self):
+        if not self.status:
+            self.enabled = not self.enabled
+            self.save()
     def complete(self):
-        self.status = True
-        self.completed = timezone.now()
-        self.team.adjust_points(self.point_value)
-        super(Task, self).save()
+        if not self.status:
+            self.enabled = False
+            self.status = True
+            self.completed = timezone.now()
+            self.save()
+            self.team.adjust_points(self.point_value)
     
     class Meta:
         abstract = True
     
         
 class Inject(Task):
-    # team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='injects', related_query_name='inject', verbose_name="Team")
     details = models.TextField(max_length=600, verbose_name="Details")
-    enabled = models.BooleanField(default=False, verbose_name="Enabled?")
     available = models.DateTimeField(blank=True, null=True, verbose_name="Available")
     deadline = models.DateTimeField(blank=True, null=True, verbose_name="Deadline")
     
-    def complete(self):
-        if not self.status:
-            super(Inject, self).complete()
-            self.enabled = False
-            self.save()
-    def toggle(self):
-        if not self.status:
-            self.enabled = not self.enabled
-            self.save()
-    def can_view(self, user):
-        if user.account._team() == self.team:
-            if self.enabled:
-                return True
-        return False
+    def __init__(self, *args, **kwargs):
+        kwargs['enabled'] = False
+        super(Inject, self).__init__(*args, **kwargs)
     
     class Meta:
         permissions = [('view_inject', 'Can view inject')]
     
         
 class Action(Task):
-    # team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='actions', related_query_name='action', verbose_name="Team")
-    
-    def save(self, *args, **kwargs):
-        super(Action, self).save(*args, **kwargs)
-        self.complete()
     
     class Meta:
         permissions = [('view_action', 'Can view action')]
