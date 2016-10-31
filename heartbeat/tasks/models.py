@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.utils import timezone
 from core.models import Model
@@ -14,7 +15,7 @@ class Task(Model):
     def __str__(self):
         return self.subject
     def toggle(self):
-        if not self.status:
+        if not self.status and timezone.now() < self.deadline:
             self.enabled = not self.enabled
             self.save()
     def complete(self):
@@ -37,6 +38,16 @@ class Inject(Task):
     def __init__(self, *args, **kwargs):
         kwargs['enabled'] = False
         super(Inject, self).__init__(*args, **kwargs)
+    @classmethod
+    def schedule(cls):
+        for inject in cls.objects.all():
+            if inject.enabled:
+                if inject.deadline and timezone.now() > inject.deadline:
+                    inject.toggle()
+            else:
+                if inject.available and timezone.now() > inject.available:
+                    inject.toggle()
+    
     
     class Meta:
         permissions = [('view_inject', 'Can view inject')]

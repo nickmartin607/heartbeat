@@ -1,4 +1,0 @@
-[
-    {"model": "systems.host", "pk": 1, "fields": {"name": "Google DNS",     "ip": "8.8.8.8",        "hostname": "", "os": "", "notes": "", "last_checked": null, "enabled": true, "status": true, "team": 1}},
-    {"model": "systems.host", "pk": 2, "fields": {"name": "Speedtest FTP",  "ip": "90.130.70.73",   "hostname": "", "os": "", "notes": "", "last_checked": null, "enabled": true, "status": true, "team": 1}}
-]

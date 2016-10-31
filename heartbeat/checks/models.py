@@ -3,8 +3,7 @@ from django.db import models
 from django.utils import timezone
 from core.models import Model
 from heartbeat.systems.models import Host, Service
-from .plugins import plugins, ping, port_connect
-
+from .plugins import ping, port_connect, plugins
 
 class Check(Model):
     timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name="Timestamp")
@@ -17,15 +16,6 @@ class Check(Model):
         service = self.service.protocol if self.service else 'N/A'
         status = 1 if self.status else 0
         return 'Check:{}  ->  Host[{}], Service[{}]'.format(str(status), self.host, service)
-    def __init__(self, *args, **kwargs):
-        super(Check, self).__init__(*args, **kwargs)
-        if self.service:
-            self.host = self.service.host
-            self.save()
-            self.check_service()
-        else:
-            self.check_host()
-        
     def check_host(self, host_check_only=True):
         if self.host.is_windows():
             (status, message) = port_connect(host=self.host, port=135)
@@ -57,7 +47,7 @@ class Check(Model):
         self.description = message
         self.save()
         return status
-            
+    
     class Meta:
         permissions = [
             ('view_check', 'Can view check'),

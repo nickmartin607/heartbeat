@@ -22,22 +22,22 @@ class Table:
         for column in self.columns:
             perm = column.get('permission', None)
             if request.user.account.has_perm(perm, self.model)[0]:
-                self.header.append(self.build_header_cell(column, request.GET.copy()))
+                self.header.append(self._build_header_cell(column, request.GET.copy()))
         for element in self.elements:
             row = []
             for column in self.columns:
                 perm = column.get('permission', None)
                 if request.user.account.has_perm(perm, self.model, id=element.pk)[0]:
-                    value = self.build_body_cell(column, element)
+                    value = self._build_body_cell(column, element)
                     row.append(value)
             if len(row):
                 self.body.append(row)
                     
-    def build_header_cell(self, column, request):
+    def _build_header_cell(self, column, request):
         field = column.get('field', None)
         common_action = column.get('common_action', None)
         if field:
-            label = self.model._fieldname(field)
+            label = self.model.fieldname(field)
         elif common_action:
             field = common_action
             label = common_action.capitalize()
@@ -60,7 +60,7 @@ class Table:
             styles.append('narrow')
         return get_tag('th', label, css_class=' '.join(styles))
             
-    def build_body_cell(self, column, element):
+    def _build_body_cell(self, column, element):
         field = column.get('field', None)
         common_action = column.get('common_action', None)
         action = column.get('action', common_action)
@@ -86,7 +86,7 @@ class Table:
                 if column.get('appended_text'):
                     value = '{}{}'.format(value, column.get('appended_text', ''))
         if action:
-            href = element._url(action, args=[element.pk])
+            href = element.url(action, args=[element.pk])
             label = get_tag('a', value, href=href)
         else:
             label = str(value)

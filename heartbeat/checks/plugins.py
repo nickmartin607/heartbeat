@@ -30,16 +30,17 @@ def ftp_auth(check):
     anonymous = True
     with ftplib.FTP(check.host.ip) as ftp:
         try:
-            if anonymous:
+            if 'anonymous' in check.notes.lower():
                 ftp.login()
             else:
                 username = check.service.credential.username
                 password = check.service.credential.password
                 ftp.login(username, password)
             return_value = ftp.getwelcome()
+            
             return (True, 'FTP Authentication Succeeded - "{}"'.format(return_value))
         except Exception as e:
-            return (False, 'FTP Authentication Succeeded - Error: "{}"'.format(e))
+            return (False, 'FTP Authentication Failed - Error: "{}"'.format(e))
             
 plugins = {'FTP': ftp_auth}
             

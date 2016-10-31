@@ -1,3 +1,0 @@
-[
-    {"model": "tasks.inject", "pk": 1, "fields": {"status": false, "subject": "Enabled Telnet", "deadline": null, "team": 1, "available": null, "point_value": 125, "details": "CEO Wants Telnet.", "enabled": true}}
-]

@@ -16,7 +16,7 @@ class System(Model):
     def toggle(self):
         self.enabled = not self.enabled
         self.save()
-   
+    
     class Meta:
         abstract = True
     
@@ -34,6 +34,7 @@ class Host(System):
         if self.enabled:
             from heartbeat.checks.models import Check
             check = Check(host=self)
+            check.check_host()
     def is_windows(self):
         return 'windows' in self.os.lower()
     
@@ -51,7 +52,6 @@ class Service(System):
     check_count = models.PositiveIntegerField(default=0, verbose_name="Total Checks")
     checks_successful = models.PositiveIntegerField(default=0, verbose_name="Total Successful Checks")
 
-
     def __str__(self):
         return '{}[{}]'.format(self.protocol, self.host)
     def save(self, *args, **kwargs):
@@ -64,7 +64,8 @@ class Service(System):
     def do_check(self):
         if self.enabled:
             from heartbeat.checks.models import Check
-            check = Check(service=self)
+            check = Check(host=self.host, service=self)
+            check.check_service()
     def update_stats(self, status):
         if status:
             self._get_team().adjust_points(self.point_value)
@@ -72,6 +73,13 @@ class Service(System):
         self.check_count = int(self.check_count + 1)
         self.uptime = int(float(self.checks_successful) / self.check_count * 100)
         self.save()
+        
+    @classmethod
+    def schedule(cls):
+        print("Checking Services!")
+        for service in cls.objects.filter(enabled=True):
+            if service._get_team().enabled:
+                service.do_check()
         
     def _get_team(self):
         return self.host.team
@@ -91,3 +99,5 @@ class Credential(Model):
 
     class Meta:
         permissions = [('view_credential', 'Can view credential')]
+
+

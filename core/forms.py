@@ -68,5 +68,5 @@ class Form(ModelForm):
         
     @classmethod
     def _modelname(cls, capitalize=True):
-        name = cls._meta.model._modelname()
+        name = str(cls._meta.model.modelname)
         return name.capitalize() if capitalize else name

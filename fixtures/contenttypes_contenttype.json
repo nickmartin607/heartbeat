@@ -1,0 +1,114 @@
+[
+    {
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "app_label": "auth",
+            "model": "user"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "app_label": "authentication",
+            "model": "account"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "app_label": "teams",
+            "model": "team"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "app_label": "systems",
+            "model": "host"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "app_label": "systems",
+            "model": "service"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "app_label": "systems",
+            "model": "credential"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "app_label": "checks",
+            "model": "check"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "app_label": "tasks",
+            "model": "inject"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "app_label": "tasks",
+            "model": "action"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 14
+    }
+]

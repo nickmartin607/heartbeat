@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from core.decorators import has_permission
+from core.authentication.decorators import has_permission
 from core.views import ListView
 from .models import Inject
 from .tables import InjectTable
@@ -18,6 +18,6 @@ def InjectComplete(request, id):
     except:
         return redirect('404')
     instance.complete()
-    return redirect(Inject._namespace('all'))
+    return redirect(Inject.namespace('all'))
         
     

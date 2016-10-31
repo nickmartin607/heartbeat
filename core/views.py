@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .decorators import *
+from core.authentication.decorators import has_permission
 
 @has_permission('view')
 def ListView(request, model, table):
@@ -26,12 +26,12 @@ def DetailView(request, model, model_form, id):
     
 @has_permission('add')
 def CreateView(request, model, model_form):
-    next_url = model._url('create')
+    next_url = model.url('create')
     if request.method == 'POST':
         form = model_form(request.POST, next_url=next_url)
         if form.is_valid():
             instance = form.save()
-            return redirect(model._namespace('all'))
+            return redirect(model.namespace('all'))
     else:
         form = model_form(next_url=next_url)
     return render(request, 'form.html', {'form': form})
@@ -43,12 +43,12 @@ def ModifyView(request, model, model_form, id):
         instance = model.objects.get(pk=id)
     except:
         return redirect('404')
-    next_url = model._url('modify', args=[id])
+    next_url = model.url('modify', args=[id])
     if request.method == 'POST':
         form = model_form(request.POST, instance=instance, next_url=next_url)
         if form.is_valid():
             instance = form.save()
-            return redirect(model._namespace('all'))
+            return redirect(model.namespace('all'))
     else:
         form = model_form(instance=instance, next_url=next_url)
     return render(request, 'form.html', {'id': id, 'instance': instance, 'form': form})
@@ -61,7 +61,7 @@ def DeleteView(request, model, id):
     except:
         return redirect('404')
     instance.delete()
-    return redirect(model._namespace('all'))
+    return redirect(model.namespace('all'))
     
 
 @has_permission('modify')
@@ -71,4 +71,4 @@ def ToggleView(request, model, id):
     except:
         return redirect('404')
     instance.toggle()
-    return redirect(model._namespace('all'))
+    return redirect(model.namespace('all'))

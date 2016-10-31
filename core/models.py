@@ -11,18 +11,17 @@ class Model(models.Model):
     def _modelname(cls):
         return cls._meta.model_name
     @classmethod
-    def _fieldname(cls, field):
+    def fieldname(cls, field):
         if field in cls._meta.get_all_field_names():
             return cls._meta.get_field(field).verbose_name
         else:
             return '?'
     @classmethod
-    def _namespace(cls, action):
-        namespace = '{}:{}'.format(cls._modelname(), action)
-        return namespace
+    def namespace(cls, action):
+        return '{}:{}'.format(cls._modelname(), action)
     @classmethod
-    def _url(cls, action, args=[]):
-        return reverse(cls._namespace(action), args=args)
+    def url(cls, action, args=[]):
+        return reverse(cls.namespace(action), args=args)
         
     appname = property(_appname)
     modelname = property(_modelname)

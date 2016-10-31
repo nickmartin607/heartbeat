@@ -21,11 +21,13 @@ APPEND_SLASH = True
 ROOT_URLCONF = '{}.urls'.format(PROJECT_NAME)
 PERSONAL_APPS = [
     'core',
+    'core.authentication',
     'heartbeat',
     'heartbeat.teams',
     'heartbeat.systems',
     'heartbeat.checks',
     'heartbeat.tasks',
+    'heartbeat.schedule',
 ]
 DEPENDENCY_APPS = [
     'datetimewidget',
@@ -105,7 +107,7 @@ MIDDLEWARE_CLASSES = (
 
 ################## General #####################################################
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 USE_TZ = True
 USE_I18N = True
 USE_L10N = True

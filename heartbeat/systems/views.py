@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from core.decorators import has_permission
+from core.authentication.decorators import has_permission
 from core.views import ListView
 from heartbeat.teams.models import Team
 from .models import Host, Service, Credential
@@ -19,7 +19,7 @@ def HostCheck(request, id):
     except:
         return redirect('404')
     instance.do_check()
-    return redirect(Host._namespace('all'))
+    return redirect(Host.namespace('all'))
 
 def ServiceList(request):
     services = Service.objects.order_by('-status', '-enabled')
@@ -33,11 +33,11 @@ def ServiceCheck(request, id):
     except:
         return redirect('404')
     instance.do_check()
-    return redirect(Service._namespace('all'))
+    return redirect(Service.namespace('all'))
 
 @has_permission('modify', Credential)
 def ServicePasswd(request, id):
-    next_url = Service._url('passwd', args=[id])
+    next_url = Service.url('passwd', args=[id])
     instance = Service.objects.get(pk=id)
     try:
         credential = Credential.objects.get(pk=id)
@@ -54,5 +54,5 @@ def ServicePasswd(request, id):
                 return redirect('index')
     else:
         form = CredentialForm(instance=credential, next_url=next_url)
-    data = {'title': "Change {} Credentials".format(Service._modelname().capitalize()), 'form': form}
+    data = {'title': "Change {} Credentials".format(Service.modelname.capitalize()), 'form': form}
     return render(request, 'form.html', data)

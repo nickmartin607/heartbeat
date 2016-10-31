@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect
-from core.decorators import has_permission
-from heartbeat.systems.models import Host, Service
+from core.authentication.decorators import has_permission
 from .models import Team
 
 
 @has_permission('modify', Team)
 def PerformChecks(request, id):
-    hosts = Host.objects.filter(team__pk=id).filter(enabled=True)
-    [host.do_check() for host in hosts]
-    services = Service.objects.filter(host__in=hosts).filter(enabled=True)
-    [service.do_check() for service in services]
+    try:
+        team = Team.objects.get(pk=id)
+    except:
+        return redirect('404')
+    [h.do_check() for h in team.hosts.filter(enabled=True)]
+    hosts = team.hosts.filter(enabled=True).filter(status=True)
+    [s.do_check() for h in hosts for s in h.services.filter(enabled=True)]
     return redirect('index')
 
 
