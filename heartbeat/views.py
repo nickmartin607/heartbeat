@@ -7,9 +7,12 @@ from heartbeat.schedule.models import get_schedule
 
 @login_required
 def Index(request):
-    teams = Team.objects.order_by('name')
     checks = Check.objects.order_by('-timestamp')[:20]
     table = CheckTable(model=Check, elements=checks)
-    table = table.build(request)
-    schedule = get_schedule()
-    return render(request, 'index.html', {'teams': teams, 'table': table, 'schedule': schedule})
+    table.build(request)
+    data = {
+        'teams': Team.objects.order_by('name'),
+        'table': table,
+        'schedule': get_schedule(),
+    }
+    return render(request, 'index.html', data)

@@ -6,6 +6,7 @@ Add 'time-remaining' function to Tasks
 Add forms to awards specific number of points for Teams
 Add action button dictionary to:    *.forms
 Build Stats Functions and Summary View Page into Team
+Add list of options for host operating systems, change is_windows to that
 ################################################################################
 
 
@@ -30,13 +31,9 @@ Seperate out CSS Files
 ################################################################################
 
 
-######################################## MISC ##################################
-Expand on Admin Pages Organization/Layout/Display
-################################################################################
-
-
-######################################## EXTRA MODULES #########################
+######################################## TIME PENDING ##########################
 Admin Page Templates
+Expand on Admin Pages Organization/Layout/Display
 ################################################################################
 
 
