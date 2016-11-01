@@ -1,7 +1,24 @@
+Template Tags to Make
+    'Time Ago'
+    symbols/colors
+
+For Each Host
+    Header Contains
+        TEAM_SYMBOL
+        STATUS_SYMBOL/NAME/IP/HOSTNAME[Link to Modify]
+                                INACTIVE/LAST_CHECKED[Link to Toggle, Check]
+        Table for Services
+            STATUS_SYMBOL/PROTOCOL/PORT[Link to Modify]
+                                INACTIVE/LAST_CHECKED[Link to Toggle, Check]
+            POINT_VALUE
+                                UPTIME
+            PASSWD[Link]
+
 Index
     Limit what users can see based on perms
     Setup links for start/stop schedule, enable/disable all stuff
 Systems
+
 
 ######################################## APPS ##################################
 Build views/urls/forms for:         heartbeat.checks.Check
