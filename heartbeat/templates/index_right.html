@@ -1,0 +1,7 @@
+{% if user.is_staff %}
+    <div class="row">
+        <div class="col-lg-12">
+            {% include 'sub_elements/timeline.html' %}
+        </div>
+    </div>
+{% endif %}

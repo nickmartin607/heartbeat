@@ -60,7 +60,7 @@ STATICFILES_FINDERS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join(BASE_PATH, 'core', 'templates')],
+        'DIRS': [join(BASE_PATH, 'core', 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +76,6 @@ TEMPLATES = [
         },
     },
 ]
-BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
 ################################################################################
 
 

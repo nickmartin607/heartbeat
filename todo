@@ -1,3 +1,8 @@
+Index
+    Limit what users can see based on perms
+    Setup links for start/stop schedule, enable/disable all stuff
+Systems
+
 ######################################## APPS ##################################
 Build views/urls/forms for:         heartbeat.checks.Check
                                     heartbeat.tasks.Action

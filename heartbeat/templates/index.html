@@ -1,69 +1,18 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        Task Schedule Status:
-        {% if schedule.enabled %}
-            Running (<a href="/schedule/stop">Stop</a>)
-        {% else %}
-            Stopped (<a href="/schedule/start">Start</a>)
-        {% endif %}
-    </div>
-    
-    </br>
-    
-    <div class="col-sm-10 col-sm-offset-1">
-        <h1 class="page-header">Dashboard</h1>
-        <div class="row placeholders">
-            {% for team in teams %}
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <h1 style="font-size:60px">
-                        <span class="label label-default">
-                            {{ team.total_points }}
-                        </span>
-                    </h1>
-                    <h2>
-                        {% if user.is_staff %}
-                            <a href="{% url 'team:perform-checks' id=team.pk %}">{{ team.name }}</a>
-                        {% else %}
-                            {{ blue_team }}
-                        {% endif %}
-                    </h2>
-                    {% if user.is_staff %}
-                        <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='award' id=team.pk points=100 %}">Award Points</a></div>
-                        <div class="text-muted"><a href="{% url 'team:adjust-points' transaction='deduct' id=team.pk points=100 %}">Deduct Points</a></div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+    <div class="row">
+        <div class="col-lg-4 col-buffer">
+            {% include 'index_left.html' %}
+        </div>
+        
+        <div class="col-lg-8 col-buffer">
+            {% include 'index_right.html' %}
         </div>
     </div>
-
-    </br>
-
-    {% if user.is_staff %}
-        <div>
-            <table class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                {% for column in table.header %}
-                    {{ column|safe }}
-                {% endfor %}
-                </tr>
-            </thead>
-            
-            <tbody>
-            {% for element in table.body %}
-                <tr>
-                {% for column in element %}
-                    {{ column|safe }}
-                {% endfor %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </table>
-        </div>
-    {% endif %}
+    <div class="row">
+        {% for host in hosts %}
+            {% include 'sub_elements/host_tile.html' %}
+        {% endfor %}
+    </div>
 {% endblock %}

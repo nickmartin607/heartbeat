@@ -14,34 +14,29 @@
         <title>CDT Scoring Engine</title>
         
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
-        <link href="{% static 'css/auth.css' %}" rel="stylesheet">
-        <link href="{% static 'css/navbar_sidebar.css' %}" rel="stylesheet">
-        <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+        <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
         
         {{ form.media }}    <!--Needed for Crispy-Forms-->
     </head>
     
     <body>
         {% if request.user.is_authenticated %}
-            {% include "navbar.html" %}
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        {% include "sidebar.html" %}
-                        {% block content %}{% endblock %}
-                    </div>
+            <div id="wrapper">
+                {% include 'header.html' %}
+                
+                <div id="page-wrapper">
+                    {% block content %}{% endblock %}
                 </div>
             </div>
+        {% else %}
+            {% block auth %}{% endblock %}
         {% endif %}
         
-        {% block auth %}{% endblock %}
-        
         <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
     </body>
     
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 </html>

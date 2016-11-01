@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bell fa-fw"></i> Staff Actions
+    </div>
+
+    <div class="panel-body">
+        <div class="list-group">
+            <a href="#" class="list-group-item">
+                <i class="fa fa-random fa-fw"></i> Service Checks
+                <span class="pull-right text-muted small">
+                    <em>{% if schedule.enabled %}Active{% else %}Stopped{% endif %}</em>
+                </span>
+            </a>
+            <a href="#" class="list-group-item">
+                <i class="fa fa-check fa-fw"></i> Enable All Services/Hosts
+            </a>
+            <a href="#" class="list-group-item">
+                <i class="fa fa-close fa-fw"></i> Disable All Services/Hosts
+            </a>
+        </div>
+        <a href="{% url 'admin:index' %}" class="btn btn-default btn-block">
+            <i class="fa fa-cogs fa-fw"></i> Administrative Panel
+        </a>
+    </div>
+</div>

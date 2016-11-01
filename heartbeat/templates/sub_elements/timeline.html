@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-clock-o fa-fw"></i> Service Checks
+    </div>
+    <div class="panel-body">
+        <ul class="timeline">
+            {% for element in checks %}
+                {% include 'sub_elements/timeline_entry.html' %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+            

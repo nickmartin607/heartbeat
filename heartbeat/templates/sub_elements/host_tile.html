@@ -1,0 +1,29 @@
+{% load tags %}
+
+<div class="col-lg-6 col-md-6">
+    <div class="panel panel-grey">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-3">
+                    <i class="fa fa-{% team_icon host.team.group %} fa-5x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                    <div class="huge">{% firstof host.hostname host.name %}</div>
+                    <div><strong>{{ host.ip }}</strong></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div><i class="fa fa-clock-o"></i> {{ host.last_checked }}</div>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <div>OS: {% firstof host.os 'N/A' %}</div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            {% include 'sub_elements/service_table.html' %}
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

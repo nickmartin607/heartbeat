@@ -9,9 +9,16 @@ def is_active(request, current_url):
     return 'active' if request.path == reverse(current_url) else ''
     
 @register.simple_tag
-def user_group(id):
-    try:
-        group = User.objects.get(pk=id).groups.all()[0].name
-    except:
-        group = ''
-    return group
+def team_color(group):
+    group = str(group).lower()
+    return group if group in ['red', 'blue'] else 'grey'
+        
+@register.simple_tag
+def team_icon(group):
+    group = str(group).lower()
+    if 'red' in group:
+        return 'empire'
+    elif 'blue' in group:
+        return 'rebel'
+    else:
+        return 'first-order'
