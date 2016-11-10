@@ -1,0 +1,23 @@
+{% load tags %}
+
+<div class="panel panel-{{ team.color }}">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3">
+                {% symbol team category='team' extras='fa-5x' %}
+            </div>
+            <div class="col-xs-9 text-right">
+                <div class="huge">{{ team.score }}</div>
+                <div>{{ team.name }}</div>
+            </div>
+        </div>
+    </div>
+    <a>
+        <div class="panel-footer">
+            <span class="pull-left">
+                <b>Total Uptime: </b>{{ team.uptime }}
+            </span>
+            <div class="clearfix"></div>
+        </div>
+    </a>
+</div>

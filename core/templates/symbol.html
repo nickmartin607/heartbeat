@@ -1,0 +1,5 @@
+{% if icon %}
+    {% if url %}<a href="{{ url }}" style="text-decoration:none {{ style }}">{% endif %}
+        <i class="fa fa-{{ icon }} {{ extras }}" style="{{ color }}"></i>
+    {% if url %}</a>{% endif %}
+{% endif %}

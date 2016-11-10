@@ -1,74 +1,49 @@
 from django.shortcuts import render, redirect
-from core.authentication.decorators import has_permission
+from authentication.decorators import has_permission
 
-@has_permission('view')
-def ListView(request, model, table):
-    try:
-        table.sort(request.GET.get('order_by'))
-    except:
-        pass
-    table.build(request)
-    return render(request, 'table.html', {'table': table})
-    
-    
-@has_permission('view')
-def DetailView(request, model, model_form, id):
-    try:
-        instance = model.objects.get(pk=id)
-    except:
-        return redirect('404')
-    if instance.enabled or request.user.is_staff:
-        form = model_form(instance=instance)
-        return render(request, 'form.html', {'form': form})
-    else:
-        return redirect('401')
-    
-    
 @has_permission('add')
-def CreateView(request, model, model_form):
-    next_url = model.url('create')
+def AddView(request, model, model_form, initial={}):
+    heading = 'Add a New {}'.format(model._meta.model_name.capitalize())
     if request.method == 'POST':
-        form = model_form(request.POST, next_url=next_url)
+        form = model_form(request.POST)
         if form.is_valid():
             instance = form.save()
-            return redirect(model.namespace('all'))
+            return redirect(form.redirect_url)
     else:
-        form = model_form(next_url=next_url)
-    return render(request, 'form.html', {'form': form})
-
+        form = model_form(initial=initial)
+    return render(request, 'form.html', {'form': form, 'heading': heading})
 
 @has_permission('modify')
 def ModifyView(request, model, model_form, id):
+    heading = 'Modify the {}'.format(model._meta.model_name.capitalize())
     try:
         instance = model.objects.get(pk=id)
     except:
         return redirect('404')
-    next_url = model.url('modify', args=[id])
     if request.method == 'POST':
-        form = model_form(request.POST, instance=instance, next_url=next_url)
+        form = model_form(request.POST, instance=instance)
         if form.is_valid():
             instance = form.save()
-            return redirect(model.namespace('all'))
+            return redirect(form.redirect_url)
     else:
-        form = model_form(instance=instance, next_url=next_url)
-    return render(request, 'form.html', {'id': id, 'instance': instance, 'form': form})
-
+        form = model_form(instance=instance)
+    data = {'id': id, 'instance': instance, 'form': form, 'heading': heading}
+    return render(request, 'form.html', data)
 
 @has_permission('delete')
-def DeleteView(request, model, id):
+def DeleteView(request, model, id, redirect_url):
     try:
         instance = model.objects.get(pk=id)
     except:
         return redirect('404')
     instance.delete()
-    return redirect(model.namespace('all'))
-    
+    return redirect(redirect_url)
 
 @has_permission('modify')
-def ToggleView(request, model, id):
+def ToggleView(request, model, id, redirect_url):
     try:
         instance = model.objects.get(pk=id)
     except:
         return redirect('404')
     instance.toggle()
-    return redirect(model.namespace('all'))
+    return redirect(redirect_url)

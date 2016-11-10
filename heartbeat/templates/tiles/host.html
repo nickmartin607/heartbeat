@@ -1,0 +1,49 @@
+{% load tags %}
+
+<div class="col-lg-6 col-md-6">
+    <div class="panel panel-{% if not host.visible %}grey{% elif host.status %}green{% else %}red{% endif %}">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-9">
+                    <div class="row">
+                        <div class="col-xs-12 huge">
+                            <i class="fa fa-eye"></i>
+                            {% firstof host.hostname host.name %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <strong>{% symbol host.base_os category='os' %} {{ host.ip }}</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                             {% symbol 'clock' %} <strong>Last Checked:</strong>
+                             <a href="{% url 'host:check' host.id %}" style="text-decoration:none; color:white">{% firstof host.last_checked|timesince|append:' ago' 'Never' %}</a>
+                             {% if not host.status %}<i>(Offline)</i>{% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% include 'tiles/team_column.html' with team=host.team %}
+            </div>
+        </div>
+        <div class="panel-footer-table">
+            {% include 'service_table.html' with services=host.service_set.all %}
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-footer">
+            <div class="text-center">
+                <a href="{% url 'service:add' host.id %}" class="btn btn-primary">Add New Service <i class="fa fa-gear"></i></a>
+                <a href="{% url 'host:toggle' host.id %}" class="btn btn-primary">{% if host.visible %}Disable <i class="fa fa-eye-slash"></i>{% else %}Enable <i class="fa fa-eye"></i>{% endif %}</a>
+                <a href="{% url 'host:modify' host.id %}" class="btn btn-primary">Modify <i class="fa fa-gear"></i></a>
+                <a href="{% url 'host:delete' host.id %}" class="btn btn-primary">Delete <i class="fa fa-trash"></i></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

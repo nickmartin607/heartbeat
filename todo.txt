@@ -1,0 +1,28 @@
+https://github.com/Gallopsled/pwntools
+
+
+######################################## APPS ##################################
+Add forms to awards specific number of points for Teams
+Build Stats Functions and Summary View Page into Team
+Change authentication.models.Account?
+    for group() and team(), change to return list not single?
+################################################################################
+
+
+
+######################################## TABLES ################################
+Set default sort for all
+################################################################################
+
+
+
+######################################## FORMS #################################
+Set Datetime Picker for Date/Time Fields
+################################################################################
+
+
+
+######################################## HTML ##################################
+Add Form to Homepage to set Sleep Timers
+Popover/Hover Alerts/Errors?
+################################################################################

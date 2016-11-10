@@ -1,0 +1,84 @@
+{% load tags %}
+
+<div class="col-lg-6 col-md-6">
+    <div class="panel panel-grey">
+        <div class="panel-heading">
+            <div class="row">
+                {% if user.is_staff %}
+                    <div class="col-xs-9">
+                        <div class="row">
+                            <div class="col-xs-12 huge">
+                                <div class="huge">{{ inject.subject }}</div>
+                            </div>
+                        </div>
+                        {% if not inject.status %}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    {% symbol 'clock' %} <strong>Available:</strong>
+                                    {% if inject.available %}
+                                        {{ inject.available|date }} at {{ inject.available|time }}
+                                    {% else %}
+                                        TBD
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    {% symbol 'clock' %} <strong>Deadline:</strong>
+                                    {% if inject.deadline %}
+                                        {{ inject.deadline|timeuntil }}
+                                    {% else %}
+                                        TBD
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    {% symbol 'clock' %}<strong>Completed:</strong>
+                                    {{ inject.completed|date }} at {{ inject.completed|time }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% include 'tiles/team_column.html' with team=inject.team %}
+                {% else %}
+                    <div class="col-xs-12 text-center">
+                        <div class="row">
+                            <div class="col-xs-12 huge">
+                                {{ inject.subject }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {% symbol 'clock' %} Due in {{ inject.deadline|timeuntil }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div>{{ inject.details }}</div>
+            <div class="clearfix"></div>
+        </div>
+        {% if user.is_staff %}
+            <div class="panel-footer">
+                <div class="text-center">
+                    {% if not inject.status %}
+                        <a href="{% url 'inject:toggle' inject.id %}" class="btn btn-primary">{% if inject.visible %}Disable <i class="fa fa-eye-slash"></i>{% else %}Enable <i class="fa fa-eye"></i>{% endif %}</a>
+                        <a href="{% url 'inject:complete' inject.id %}" class="btn btn-primary">Mark as Complete <i class="fa fa-check"></i></a>
+                    {% endif %}
+                    <a href="{% url 'inject:modify' inject.id %}" class="btn btn-primary">Modify <i class="fa fa-gear"></i></a>
+                    <a href="{% url 'inject:delete' inject.id %}" class="btn btn-primary">Delete <i class="fa fa-trash"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+

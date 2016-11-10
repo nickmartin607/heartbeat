@@ -1,0 +1,17 @@
+{% load tags %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {% symbol 'clock' extras='fa-fw' %} {% if checks %}Service Checks{% else %}No Service Checks Performed!{% endif %}
+    </div>
+    <div class="panel-body">
+        {% if checks %}
+            <ul class="timeline">
+                {% for check in checks %}
+                    {% include 'timeline_entry.html' %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+            

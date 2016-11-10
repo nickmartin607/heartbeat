@@ -21,13 +21,8 @@ APPEND_SLASH = True
 ROOT_URLCONF = '{}.urls'.format(PROJECT_NAME)
 PERSONAL_APPS = [
     'core',
-    'core.authentication',
+    'authentication',
     'heartbeat',
-    'heartbeat.teams',
-    'heartbeat.systems',
-    'heartbeat.checks',
-    'heartbeat.tasks',
-    'heartbeat.schedule',
 ]
 DEPENDENCY_APPS = [
     'datetimewidget',
@@ -60,7 +55,7 @@ STATICFILES_FINDERS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join(BASE_PATH, 'core', 'templates'),],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +71,7 @@ TEMPLATES = [
         },
     },
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 ################################################################################
 
 
@@ -125,6 +121,6 @@ DEBUG = True if ENVIRONMENT == 'dev' else False
 
 
 ################## Security ####################################################
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 SECRET_KEY = '9e5p_b_va=^gq6l)1rkcf(t(!!=u_#&v+!@a6j5qp2%27y4%(u'
 ################################################################################

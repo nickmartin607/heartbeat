@@ -1,0 +1,41 @@
+{% load staticfiles tags %}
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <div class="navbar-logo">
+            <a class="navbar-brand" href="{% url 'index' %}">Heartbeat {% symbol 'heartbeat' color='orange' %}</a>
+        </div>
+    </div>
+    
+    <ul class="nav navbar-top-links navbar-right">
+        
+        {% if user.is_staff %}
+            <li><a href="{% url 'system:all' %}">Systems</a></li>
+            <li><a href="{% url 'inject:all' %}">Injects</a></li>
+        {% endif %}
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <b>{{ user.username }}</b> {% symbol 'caret-down' %}
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a>{% symbol 'user' extras='fa-fw' %} {% firstof user.account.team user.account.group %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'passwd' %}">{% symbol 'gear' extras='fa-fw' %} Change Password</a>
+                </li>
+                {% if user.is_staff %}
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'admin:index' %}">{% symbol 'cogs' extras='fa-fw' %} Admin Panel</a>
+                    </li>
+                {% endif %}
+                <li class="divider"></li>
+                <li>
+                    <a href="{% url 'logout' %}">{% symbol 'sign-out' extras='fa-fw' %} Logout</a>
+                </li>
+            </ul>
+        </li>
+        
+    </ul>
+</nav>
