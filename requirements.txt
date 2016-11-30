@@ -1,0 +1,10 @@
+django==1.8.16
+django-crispy-forms==1.6.1
+django-datetime-widget==0.9.3
+
+scapy-python3==0.18
+dnspython==1.15.0
+paramiko==2.0.2
+
+celery==4.0.0
+

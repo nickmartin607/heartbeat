@@ -10,33 +10,42 @@
                 </div>
             {% endfor %}
         </div>
-        <br>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        {% symbol 'bell' extras='fa-fw' %} Staff Actions
-                    </div>
-                
-                    <div class="panel-body">
-                        <a href="{% url 'schedule:toggle' %}" class="btn btn-default btn-block">
-                            {% if schedule.visible %}
-                                {% symbol 'refresh' extras='fa-spin' %} Stop Service Checks
-                            {% else %}
-                                {% symbol 'random' %} Start Service Checks
-                            {% endif %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    
     <div class="col-lg-9 col-buffer">
         <div class="row">
-            <div class="col-lg-12">
-                {% include 'timeline.html' %}
+            <div class="col-lg-12 text-right">
+                <h1 class="page-header" id="top">
+                    {% if host_checks or service_checks %}
+                    Most Recent Checks
+                    {% else %}
+                    No Systems have been Checked
+                    {% endif %}
+                </h1>
             </div>
         </div>
+        {% if host_checks %}
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Hosts</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% include 'tables/checks.html' with checks=host_checks check_type="Host" %}
+            </div>
+        </div>
+        {% endif %}
+        {% if service_checks %}
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Services</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% include 'tables/checks.html' with checks=service_checks check_type="Service" %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

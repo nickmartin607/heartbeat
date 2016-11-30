@@ -1,0 +1,7 @@
+{% if user.is_staff %}
+    <div class="floating-menu text-center">
+        <a href="{% url add_url %}" class="btn btn-lg btn-warning floating-button">
+            <div class="medium"><i class="fa fa-cloud-upload fa-fw"></i> {{ label }}</div>
+        </a>
+    </div>
+{% endif %}

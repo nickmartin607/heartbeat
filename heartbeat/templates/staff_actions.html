@@ -1,0 +1,23 @@
+{% load tags %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {% symbol 'bell' extras='fa-fw' %} Staff Actions
+    </div>
+
+    <div class="panel-body">
+        <a href="{% url 'check:start' %}" class="btn btn-default btn-block">
+            Start Checks
+        </a>
+        <a href="{% url 'check:stop' %}" class="btn btn-default btn-block">
+            Stop Checks
+        </a>
+        <a href="{% url 'schedule:toggle' %}" class="btn btn-default btn-block">
+            {% if schedule.visible %}
+                {% symbol 'refresh' extras='fa-spin' %} Stop Service Checks
+            {% else %}
+                {% symbol 'random' %} Start Service Checks
+            {% endif %}
+        </a>
+    </div>
+</div>

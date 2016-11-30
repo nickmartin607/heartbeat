@@ -1,0 +1,28 @@
+{% extends 'table.html' %}
+{% load tags %}
+
+{% block thead %}
+    <th>Value</th>
+    <th>Team</th>
+    <th>Timestamp</th>
+    <th>Details</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for task in completed_tasks %}
+        <tr>
+            <td>
+                {{ task.point_value }}
+            </td>
+            <td>
+                {{ task.team }}
+            </td>
+            <td>
+                {{ task.timestamp|timesince|append:' ago' }}
+            </td>
+            <td>
+                {{ task.details }}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

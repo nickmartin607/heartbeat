@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    {% if hosts %}
+                        <a href="{% url 'service:check-all' %}">Systems</a>
+                    {% else %}
+                        No Systems Configured
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            {% for host in hosts %}
+                {% include 'tiles/host.html' %}
+            {% endfor %}
+        </div>
+        {% include 'floating_menu.html' with label="New Host" add_url='host:add' %}
+    </div>
+{% endblock %}

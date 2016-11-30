@@ -1,28 +1,19 @@
+Remove Related Names and fix when used
+
+Complete Task Form and placement
+
+Fix Checks on Index View
+
+Look Into
+    Auth Forms -> CSS, Configuration
+    Core Forms -> Possible Abstraction
+
+- change homepage checks list into a table or something differen
+- create form to award points for a task
+- Set Datetime Picker for Date/Time Fields
+- configuration page for timers, other system related values
+- popover forms/alerts/errors?
+
 https://github.com/Gallopsled/pwntools
 
-
-######################################## APPS ##################################
-Add forms to awards specific number of points for Teams
-Build Stats Functions and Summary View Page into Team
-Change authentication.models.Account?
-    for group() and team(), change to return list not single?
-################################################################################
-
-
-
-######################################## TABLES ################################
-Set default sort for all
-################################################################################
-
-
-
-######################################## FORMS #################################
-Set Datetime Picker for Date/Time Fields
-################################################################################
-
-
-
-######################################## HTML ##################################
-Add Form to Homepage to set Sleep Timers
-Popover/Hover Alerts/Errors?
-################################################################################
+toastr

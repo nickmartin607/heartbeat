@@ -20,7 +20,7 @@
         
         {{ form.media }}    <!--Needed for Crispy-Forms-->
     </head>
-    
+
     <body>
         {% if request.user.is_authenticated %}
             <div id="wrapper">
@@ -41,5 +41,5 @@
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
     </body>
-    
+
 </html>

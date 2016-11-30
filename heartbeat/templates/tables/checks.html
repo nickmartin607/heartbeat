@@ -1,0 +1,36 @@
+{% extends 'table.html' %}
+{% load tags %}
+
+{% block thead %}
+    <th>{{ check_type }}</th>
+    <th>Result</th>
+    <th>Timestamp</th>
+    {% if check_type = 'Service' %}
+    <th>Value</th>
+    {% endif %}
+    <th>Details</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for check in checks %}
+        <tr>
+            <td>
+                {{ check }}
+            </td>
+            <td>
+                {{ check.result }}
+            </td>
+            <td>
+                {{ check.timestamp|timesince|append:' ago' }}
+            </td>
+            {% if check_type = 'Service' %}
+            <td>
+                {{ check.point_value }}
+            </td>
+            {% endif %}
+            <td>
+                {{ check.details }}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

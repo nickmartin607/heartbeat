@@ -38,6 +38,11 @@ OPTIONS = {
     },
 }
 
+@register.simple_tag
+def debug_print(msg):
+    print("Debug Print: {}".format(msg))
+    return ""
+
 @register.inclusion_tag('symbol.html')
 def symbol(*args, **kwargs):
     category = kwargs.get('category', '')
@@ -76,3 +81,18 @@ def symbol(*args, **kwargs):
 def append(value, arg):
     return '{}{}'.format(value, arg) if value else None
     
+@register.filter
+def team_color(group):
+    return group if group in ['blue', 'red'] else 'grey'
+    
+@register.simple_tag
+def panel_color(element):
+    if element.visible == False:
+        return 'grey'
+    else:
+        try:
+            if element.status == True or element.completed == True:
+                return 'green'
+        except:
+            pass
+        return 'red'

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-lg-5 col-buffer">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" id="top">Commit a New Task</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% crispy form %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7 col-buffer">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-right" id="top">
+                {% if completed_tasks %}
+                    Completed Tasks
+                {% else %}
+                    No Tasks Completed
+                {% endif %}
+                </h1>
+            </div>
+        </div>
+        {% if completed_tasks %}
+        <div class="row">
+            {% include 'tables/tasks.html' %}
+        </div>
+        {% endif %}
+        
+        {% include 'floating_menu.html' with label="New Inject" add_url='inject:add' %}
+    </div>
+{% endblock %}

@@ -147,5 +147,5 @@ table.dataTable thead .sorting:after { content: "\f0dc"; float: right; font-fami
 
 .page-header#top { margin-top: 0px; }
 
-.floating-menu { position: fixed; width: 100%; bottom: 40px; z-index: 1; }
-.floating-button { box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.475) }
+.floating-menu { position: fixed; right: 55px; bottom: 55px; z-index: 1; }
+.floating-button { box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.475) }

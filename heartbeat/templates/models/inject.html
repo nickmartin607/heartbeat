@@ -1,0 +1,12 @@
+{% if injects %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="text-right">{{ category }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% for inject in injects %}
+            {% include 'tiles/inject.html' %}
+        {% endfor %}
+    </div>
+{% endif %}

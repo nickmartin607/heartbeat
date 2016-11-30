@@ -12,6 +12,7 @@
         {% if user.is_staff %}
             <li><a href="{% url 'system:all' %}">Systems</a></li>
             <li><a href="{% url 'inject:all' %}">Injects</a></li>
+            <li><a href="{% url 'task:all' %}">Tasks</a></li>
         {% endif %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">

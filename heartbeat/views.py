@@ -1,38 +1,64 @@
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from authentication.decorators import *
-from core.views import AddView, ModifyView, DeleteView, ToggleView
+from core.views import *
 from .models import *
-
+from .forms import *
+from .tasks import *
 
 ################################################################################
 # Homepage
 ################################################################################
 @login_required
 def Index(request):
-    data = {
-        'teams': Team.objects.order_by('name'),
-        'checks': Check.objects.order_by('-timestamp')[:20],
-        'schedule': get_schedule(),
-        'injects': Inject.objects.filter(visible=True).filter(team=request.user.account.team),
-        'services': Service.objects.filter(visible=True).order_by('last_checked'),
-    }
-    template = 'index_staff.html' if request.user.is_staff else 'index_teams.html'
+    if request.user.is_staff:
+        template = 'index_staff.html'
+        data = {
+            'host_checks': HostCheck.objects.order_by('-timestamp')[:10],
+            'service_checks': ServiceCheck.objects.order_by('-timestamp')[:10],
+            'config': get_config(),
+        }
+    else:
+        template = 'index_teams.html'
+        data = {
+            'services': Service.objects.filter(visible=True).order_by('last_checked'),
+            'injects': Inject.objects.filter(visible=True).filter(team=request.user.account.team),
+        }
+    data['teams'] = Team.objects.order_by('name')
     return render(request, template, data)
 ################################################################################
 # Listings
 ################################################################################
 @has_permission('view', Host)
 def SystemList(request):
-    return render(request, 'systems.html', {'hosts': Host.objects.order_by('ip')})
+    return render(request, 'models/systems.html', {'hosts': Host.objects.order_by('ip')})
+
 @has_permission('view', Inject)
 def InjectList(request):
     data = {
         'active_injects': Inject.objects.filter(visible=True),
-        'inactive_injects': Inject.objects.filter(visible=False).filter(status=False),
-        'completed_injects': Inject.objects.filter(status=True),
+        'inactive_injects': Inject.objects.filter(visible=False).filter(completed=False),
+        'completed_injects': Inject.objects.filter(completed=True),
     }
-    return render(request, 'injects.html', data)
+    return render(request, 'models/injects.html', data)
+
+@has_permission('view', Task)
+def TaskList(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            instance = form.save()
+            instance.complete()
+            return redirect('task:all')
+    else:
+        form = TaskForm()
+    data = {
+        'completed_tasks': Task.objects.filter(completed=True),
+        'form': form,
+    }
+    return render(request, 'models/tasks.html', data)
 ################################################################################
 # Create
 ################################################################################
@@ -40,12 +66,15 @@ def HostAdd(request):
     return AddView(request, Host, HostForm)
 def ServiceAdd(request, hid):
     try:
-        initial = {'host': Host.objects.get(pk=hid)}
+        host = Host.objects.get(pk=hid)
+        initial = {'host': host, 'team': host.team}
+        return AddView(request, Service, ServiceForm, initial)
     except:
-        initial = {}
-    return AddView(request, Service, ServiceForm, initial)
+        return redirect('404')
 def InjectAdd(request):
     return AddView(request, Inject, InjectForm)
+def TaskAdd(request):
+    return AddView(request, Task, TaskForm)
 ################################################################################
 # Modify
 ################################################################################
@@ -65,7 +94,7 @@ def ServiceDelete(request, id):
 def InjectDelete(request, id):
     return DeleteView(request, Inject, id, 'inject:all')
 ################################################################################
-# Toggles
+# Toggle
 ################################################################################
 def HostToggle(request, id):
     return ToggleView(request, Host, id, 'system:all')
@@ -74,35 +103,20 @@ def ServiceToggle(request, id):
 def InjectToggle(request, id):
     return ToggleView(request, Inject, id, 'inject:all')
 ################################################################################
-# Miscellaneous
+# Check
 ################################################################################
-@has_permission('modify', Schedule)
-def ScheduleToggle(request):
-    schedule = get_schedule()
-    schedule.toggle()
-    return redirect('index')
-@has_permission('modify', Host)
-def HostCheck(request, id):
-    try:
-        instance = Host.objects.get(pk=id)
-    except:
-        return redirect('404')
-    instance.do_check()
-    return redirect('system:all')
-@has_permission('modify', Service)
-def ServiceCheck(request, id):
-    try:
-        instance = Service.objects.get(pk=id)
-    except:
-        return redirect('404')
-    instance.do_check()
+def CheckHost(request, id):
+    return CheckView(request, Host, id, 'system:all')
+def CheckService(request, id):
+    return CheckView(request, Service, id, 'system:all')
+def CheckServices(request):
+    for service in Service.objects.filter(visible=True):
+        (result, details) = service.execute_check()
     return redirect('system:all')
     
-@has_permission('modify', Inject)
-def InjectComplete(request, id):
-    try:
-        instance = Inject.objects.get(pk=id)
-    except:
-        return redirect('404')
-    instance.complete()
-    return redirect('inject:all')
+################################################################################
+# Complete
+################################################################################
+def CompleteInject(request, id):
+    return CompleteView(request, Inject, id, 'inject:all')
+# def CompleteTask(request,

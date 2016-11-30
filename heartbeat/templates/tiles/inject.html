@@ -11,7 +11,7 @@
                                 <div class="huge">{{ inject.subject }}</div>
                             </div>
                         </div>
-                        {% if not inject.status %}
+                        {% if not inject.completed %}
                             <div class="row">
                                 <div class="col-xs-12">
                                     {% symbol 'clock' %} <strong>Available:</strong>
@@ -36,7 +36,7 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     {% symbol 'clock' %}<strong>Completed:</strong>
-                                    {{ inject.completed|date }} at {{ inject.completed|time }}
+                                    {{ inject.timestamp|date }} at {{ inject.timestamp|time }}
                                 </div>
                             </div>
                         {% endif %}
@@ -65,7 +65,7 @@
         {% if user.is_staff %}
             <div class="panel-footer">
                 <div class="text-center">
-                    {% if not inject.status %}
+                    {% if not inject.completed %}
                         <a href="{% url 'inject:toggle' inject.id %}" class="btn btn-primary">{% if inject.visible %}Disable <i class="fa fa-eye-slash"></i>{% else %}Enable <i class="fa fa-eye"></i>{% endif %}</a>
                         <a href="{% url 'inject:complete' inject.id %}" class="btn btn-primary">Mark as Complete <i class="fa fa-check"></i></a>
                     {% endif %}

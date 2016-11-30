@@ -1,7 +1,7 @@
 {% load tags %}
 
 <div class="col-lg-6 col-md-6">
-    <div class="panel panel-{% if not host.visible %}grey{% elif host.status %}green{% else %}red{% endif %}">
+    <div class="panel panel-{% panel_color host %}">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-xs-9">
@@ -28,7 +28,15 @@
             </div>
         </div>
         <div class="panel-footer-table">
-            {% include 'service_table.html' with services=host.service_set.all %}
+            {% with services=host.service_set.all %}
+                {% if services %}
+                    {% include 'tables/services.html' %} {#  with services=services #}
+                {% else %}
+                    <div class="medium text-center">
+                        No Services Configured for this Host
+                    </div>
+                {% endif %}
+            {% endwith %}
             <div class="clearfix"></div>
         </div>
         <div class="panel-footer">

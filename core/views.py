@@ -34,10 +34,10 @@ def ModifyView(request, model, model_form, id):
 def DeleteView(request, model, id, redirect_url):
     try:
         instance = model.objects.get(pk=id)
+        instance.delete()
+        return redirect(redirect_url)
     except:
         return redirect('404')
-    instance.delete()
-    return redirect(redirect_url)
 
 @has_permission('modify')
 def ToggleView(request, model, id, redirect_url):
@@ -46,4 +46,22 @@ def ToggleView(request, model, id, redirect_url):
     except:
         return redirect('404')
     instance.toggle()
+    return redirect(redirect_url)
+    
+@has_permission('modify')
+def CheckView(request, model, id, redirect_url):
+    try:
+        instance = model.objects.get(pk=id)
+    except:
+        return redirect('404')
+    (result, details) = instance.execute_check()
+    return redirect(redirect_url)
+        
+@has_permission('modify')
+def CompleteView(request, model, id, redirect_url):
+    try:
+        instance = model.objects.get(pk=id)
+    except:
+        return redirect('404')
+    instance.complete()
     return redirect(redirect_url)

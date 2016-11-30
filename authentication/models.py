@@ -3,7 +3,8 @@ from django.db import models
 
 
 class Account(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, primary_key=True, on_delete=models.CASCADE)
     
     @property
     def group(self):
@@ -21,9 +22,8 @@ class Account(models.Model):
     def has_perm(self, action, model, id=None):
         if self.user.is_staff or not action:
             return (True, None)
-        print("Checking Perms")
-        perm = '{}.{}_{}'.format(str(model._meta.app_label), action, str(model._meta.model_name))
-        print("Perm: {}".format(perm))
+        perm = '{}.{}_{}'.format(
+            model._meta.app_label, action, model._meta.model_name)
         if not self.user.has_perm(perm):
             return (False, 404)
         try:
@@ -34,7 +34,7 @@ class Account(models.Model):
                 return (False, 401)
         except:
             pass
-        return (True, '')
+        return (True, 0)
         
 
 def create_account(sender, instance, created, **kwargs):

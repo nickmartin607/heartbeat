@@ -1,52 +1,56 @@
 from django.contrib import admin
 from .models import *
 
-
 class TeamAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['name', 'group']}),
+        (None,              {'fields': ['name', 'group']}),
     ]
+admin.site.register(Team, TeamAdmin)
+
 class HostAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['team', 'name']}),
-        ('System',      {'fields': ['ip', 'hostname', 'os']}),
-        ('Details',     {'fields': ['visible', 'details']}),
+        (None,              {'fields': ['team', 'name']}),
+        ('System',          {'fields': ['ip', 'hostname', 'os']}),
+        ('Details',         {'fields': ['visible', 'status', 'last_checked']}),
     ]
+admin.site.register(Host, HostAdmin)
 class ServiceAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['host']}),
-        ('Service',     {'fields': ['protocol', 'port']}),
-        ('Details',     {'fields': ['visible', 'point_value', 'details']}),
+        (None,              {'fields': ['host', 'team']}),
+        ('Service',         {'fields': ['protocol', 'port']}),
+        ('Details',         {'fields': ['visible', 'point_value', 'status', 'last_checked']}),
+        (None,              {'fields': ['notes']}),
     ]
+admin.site.register(Service, ServiceAdmin)
+
 class InjectAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,          {'fields': ['team']}),
-        ('Inject',      {'fields': ['subject', 'details', 'point_value']}),
-        ('Events',      {'fields': ['available', 'deadline']}),
-        ('Details',     {'fields': ['visible', 'status']}),
+        (None,              {'fields': ['team']}),
+        ('Inject',          {'fields': ['subject', 'details', 'point_value',]}),
+        ('Availability',    {'fields': ['available', 'deadline']}),
+        ('Details',         {'fields': ['visible', 'completed', 'timestamp']}),
     ]
+admin.site.register(Inject, InjectAdmin)
 class TaskAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,          {'fields': ['team']}),
-        ('Task',        {'fields': ['subject', 'point_value']}),
+        ('Task',        {'fields': ['details', 'point_value']}),
+        ('Details',     {'fields': ['completed', 'timestamp']}),
     ]
-class CheckAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,          {'fields': ['team', 'timestamp']}),
-        ('Check',       {'fields': ['host', 'service']}),
-        ('Results',     {'fields': ['status', 'details']}),
-    ]
-class CredentialAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,          {'fields': ['name']}),
-        ('Credentials', {'fields': ['username', 'password']}),
-    ]
-
-admin.site.register(Team, TeamAdmin)
-admin.site.register(Host, HostAdmin)
-admin.site.register(Service, ServiceAdmin)
-admin.site.register(Inject, InjectAdmin)
 admin.site.register(Task, TaskAdmin)
-admin.site.register(Check, CheckAdmin)
-admin.site.register(Credential, CredentialAdmin)
-admin.site.register(Schedule)
+
+class HostCheckAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,          {'fields': ['team', 'host']}),
+        ('Check',       {'fields': ['timestamp', 'result', 'details']}),
+    ]
+admin.site.register(HostCheck, HostCheckAdmin)
+class ServiceCheckAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,          {'fields': ['team', 'service']}),
+        ('Check',       {'fields': ['timestamp', 'result', 'details']}),
+    ]
+admin.site.register(ServiceCheck, ServiceCheckAdmin)
+
+admin.site.register(Configuration)
+admin.site.register(Points)

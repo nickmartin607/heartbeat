@@ -27,6 +27,8 @@ PERSONAL_APPS = [
 DEPENDENCY_APPS = [
     'datetimewidget',
     'crispy_forms',
+    'celery',
+    'django_celery_beat',
 ]
 DEFAULT_APPS = [
     'django.contrib.admin',
@@ -82,6 +84,10 @@ DATABASES = {
         'NAME': join(PROJECT_PATH, 'db.sqlite3')
     }
 }
+################################################################################
+
+
+################## Celery/Redis ################################################
 ################################################################################
 
 

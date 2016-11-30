@@ -1,0 +1,54 @@
+{% extends 'table.html' %}
+{% load tags %}
+
+{% block thead %}
+    {% if user.is_staff %}<th>Visible</th>{% endif %}
+    <th>Status</th>
+    {% if not user.is_staff %}<th>Team</th>{% endif %}
+    <th>Protocol</th>
+    {% if user.is_staff %}<th>Port</th>{% endif %}
+    <th>Value</th>
+    <th>Last Checked</th>
+    <th>Uptime</th>
+{% endblock %}
+
+{% block tbody %}
+    {% for service in services %}
+        <tr>
+            {% if user.is_staff %}
+                <td>
+                    {% symbol service.visible category='visible' url='service:toggle' id=service.id %}
+                </td>
+            {% endif %}
+            <td>
+                {% symbol service.status category='status' %}
+            </td>
+            {% if not user.is_staff %}
+                <td>
+                    {{ service.team }}
+                </td>
+                <td>
+                    {{ service.protocol }}
+                </td>
+            {% else %}
+                <td>
+                    <a href="{% url 'service:modify' service.id %}">{{ service.protocol }}</a>
+                </td>
+                <td>
+                    {{ service.port }}
+                </td>
+            {% endif %}
+            <td>
+                {{ service.point_value }}
+            </td>
+            <td>
+                {% if user.is_staff %}<a href="{% url 'service:check' service.id %}">{% endif %}
+                    {% firstof service.last_checked|timesince|append:' ago' 'Never' %}
+                {% if user.is_staff %}</a>{% endif %}
+            </td>
+            <td>
+                {{ service.uptime }}%
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

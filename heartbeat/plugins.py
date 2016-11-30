@@ -1,46 +1,40 @@
-def ping(host):
-    from scapy.all import IP, ICMP, sr1
-    try:
-        packet = IP(dst=host.ip)/ICMP()
-        result = sr1(packet, timeout=3)
-        if result:
-            return (True, 'Ping Succeeded - Host is Alive')
-        else:
-            return (False, 'Ping Succeeded - Host is Down')
-    except Exception as e:
-        return (False, 'Ping Failed - Error: "{}"'.format(e))
-
-def port_connect(service=None, ip=None, port=None, timeout=5):
+def port_connect(ip, port):
     from scapy.all import IP, TCP, sr1
     try:
-        ip = service.host.ip if service else ip
-        port = port or service.port
         packet = IP(dst=ip)/TCP(dport=port, flags='S', seq=1000)
-        result = sr1(packet, timeout=3)
-        if result:
-            return (True, 'Port {} Connection Succeeded'.format(port))
+        results = sr1(packet, timeout=3)
+        if results:
+            return (True, '{}:{} Connection Succeeded'.format(ip, port))
         else:
-            return (False, 'Port {} Connection Failed'.format(port))
+            return (False, '{}:{} Connection Failed'.format(ip, port))
     except Exception as e:
-        return (False, 'Port Connection Failure - Error: "{}"'.format(e))
+        return (False, 'Port Connection Failure - {}:{} Error: "{}"'.format(ip, port, e))
 
+def ping(ip):
+    from scapy.all import IP, ICMP, sr1
+    try:
+        packet = IP(dst=ip)/ICMP()
+        results = sr1(packet, timeout=3)
+        if results:
+            return (True, 'Ping Succeeded - {} is Alive'.format(ip))
+        else:
+            return (False, 'Ping Succeeded - {} is Down'.format(ip))
+    except Exception as e:
+        return (False, 'Ping Failed - {} Error: "{}"'.format(ip, e))
 
-def ftp_auth(check):
+def ftp_auth(*args, **kwargs):
     from ftplib import FTP
-    anonymous = True
-    with FTP(check.host.ip) as ftp:
-        try:
-            if 'anonymous' in check.notes.lower():
-                ftp.login()
-            else:
-                username = check.service.credential.username
-                password = check.service.credential.password
-                ftp.login(username, password)
-            return_value = ftp.getwelcome()
-            
-            return (True, 'FTP Authentication Succeeded - "{}"'.format(return_value))
-        except Exception as e:
-            return (False, 'FTP Authentication Failed - Error: "{}"'.format(e))
-            
-plugins = {'FTP': ftp_auth}
-            
+    try:
+        with FTP(kwargs.get('ip')) as ftp:
+            try:
+                username = kwargs.get('username', 'anonymous')
+                if username == 'anonymous':
+                    ftp.login()
+                else:
+                    ftp.login(username, kwargs.get('password', ''))
+                results = ftp.getwelcome()
+                return (True, 'FTP {} Auth Success - Results: "{}"'.format(results))
+            except Exception as e:
+                return (False, 'FTP {} Auth Failed - Error: "{}"'.format(e))
+    except Exception as e:
+        return (False, 'General FTP Failure - Error: "{}"'.format(e))
