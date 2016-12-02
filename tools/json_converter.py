@@ -1,7 +1,7 @@
 import json
 
 INPUT_FILE = 'hb.json'
-OUTPUT_FILE = 'new_hb.json'
+OUTPUT_FILE = 'seed.json'
 
 def echo(d):
     [print('{}\t{}\n'.format(k,v)) for k,v in d.items()]

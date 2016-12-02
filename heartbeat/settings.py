@@ -81,7 +81,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': join(PROJECT_PATH, 'db.sqlite3')
+        'NAME': join(BASE_PATH, 'db.sqlite3')
     }
 }
 ################################################################################

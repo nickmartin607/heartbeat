@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import time, random, json
-from config.celery import app
+from .celery import app
 
 @app.task
 def execute_check_tasks(config, hosts, services):
