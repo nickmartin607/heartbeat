@@ -13,7 +13,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <strong>{% symbol host.base_os category='os' %} {{ host.ip }}</strong>
+                            <strong>{% symbol host|get_os category='os' %} {{ host.ip }}</strong>
                         </div>
                     </div>
                     <div class="row">

@@ -11,14 +11,14 @@ class HostAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,              {'fields': ['team', 'name']}),
         ('System',          {'fields': ['ip', 'hostname', 'os']}),
-        ('Details',         {'fields': ['visible', 'status', 'last_checked']}),
+        ('Details',         {'fields': ['visible', 'status']}),
     ]
 admin.site.register(Host, HostAdmin)
 class ServiceAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,              {'fields': ['host', 'team']}),
         ('Service',         {'fields': ['protocol', 'port']}),
-        ('Details',         {'fields': ['visible', 'point_value', 'status', 'last_checked']}),
+        ('Details',         {'fields': ['visible', 'point_value', 'status']}),
         (None,              {'fields': ['notes']}),
     ]
 admin.site.register(Service, ServiceAdmin)
@@ -42,13 +42,13 @@ admin.site.register(Task, TaskAdmin)
 class HostCheckAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,          {'fields': ['team', 'host']}),
-        ('Check',       {'fields': ['timestamp', 'result', 'details']}),
+        ('Check',       {'fields': ['point_value', 'timestamp', 'result', 'details']}),
     ]
 admin.site.register(HostCheck, HostCheckAdmin)
 class ServiceCheckAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,          {'fields': ['team', 'service']}),
-        ('Check',       {'fields': ['timestamp', 'result', 'details']}),
+        ('Check',       {'fields': ['point_value', 'timestamp', 'result', 'details']}),
     ]
 admin.site.register(ServiceCheck, ServiceCheckAdmin)
 

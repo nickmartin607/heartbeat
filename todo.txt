@@ -1,19 +1,17 @@
-Remove Related Names and fix when used
+Change Task Create Form to be horizontal, more compact
 
-Complete Task Form and placement
+Set DatetimePicker for Date/Time Fields
 
-Fix Checks on Index View
+Add Configuration Page for Miscellaneous Stuff
+
+Change "Check All" link on Systems Page
+
+Popup Forms/Alerts/Errors?
+    -> Toastr
 
 Look Into
     Auth Forms -> CSS, Configuration
     Core Forms -> Possible Abstraction
 
-- change homepage checks list into a table or something differen
-- create form to award points for a task
-- Set Datetime Picker for Date/Time Fields
-- configuration page for timers, other system related values
-- popover forms/alerts/errors?
 
 https://github.com/Gallopsled/pwntools
-
-toastr

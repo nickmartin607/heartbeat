@@ -85,6 +85,16 @@ def append(value, arg):
 def team_color(group):
     return group if group in ['blue', 'red'] else 'grey'
     
+@register.filter
+def get_os(host):
+    os = host.os.lower()
+    if 'windows' in os:
+        return 'windows'
+    elif 'linux' in os:
+        return 'linux'
+    else:
+        return 'other'
+    
 @register.simple_tag
 def panel_color(element):
     if element.visible == False:

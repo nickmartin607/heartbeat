@@ -1,6 +1,6 @@
 from os.path import abspath, basename, dirname, join
 
-ENVIRONMENT = 'dev'         # Either 'dev' or 'prod'
+ENVIRONMENT = 'prod'         # Either 'dev' or 'prod'
 
 ################## Paths/Files/Names ###########################################
 PROJECT_PATH = dirname(abspath(__file__))       # Inner directory containing settings.py
@@ -84,10 +84,6 @@ DATABASES = {
         'NAME': join(PROJECT_PATH, 'db.sqlite3')
     }
 }
-################################################################################
-
-
-################## Celery/Redis ################################################
 ################################################################################
 
 
