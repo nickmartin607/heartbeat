@@ -1,6 +1,6 @@
 from os.path import abspath, basename, dirname, join
 
-ENVIRONMENT = 'prod'         # Either 'dev' or 'prod'
+ENVIRONMENT = 'dev'         # Either 'dev' or 'prod'
 
 ################## Paths/Files/Names ###########################################
 PROJECT_PATH = dirname(abspath(__file__))       # Inner directory containing settings.py

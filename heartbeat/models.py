@@ -5,19 +5,7 @@ from django.utils import timezone
 from .plugins import *
 from .tasks import *
 
-OS_CHOICES = [
-    'Windows XP', 'Windows Vista', 'Windows 7', 'Windows 8', 'Windows 10',
-    'Windows Server 2003', 'Windows Server 2008', 'Windows Server 2012',
-    'Windows - Other', 'Ubuntu Linux', 'Kali Linux', 'CentOS Linux',
-    'Linux - Other', 'Other',
-]
-PROTOCOL_CHOICES = [
-    'Active Directory', 'DNS', 'FTP', 'HTTP', 'NFS', 'SMB', 'MySQL', 'SSH',
-    'Telnet',
-]
 
-#########################################################################################
-# Configuration #########################################################################
 class Configuration(models.Model):
     period_fixed = models.PositiveIntegerField(default=30)
     period_min = models.PositiveIntegerField(default=120)
@@ -32,11 +20,7 @@ def get_config():
         config = Configuration(pk=1)
         config.save()
         return config
-# Configuration #########################################################################
-#########################################################################################
 
-#########################################################################################
-# Common ################################################################################
 class Team(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name="Group Account")
     name = models.CharField(max_length=30, verbose_name="Name")
@@ -61,13 +45,11 @@ class Team(models.Model):
 class Points(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name="Team")
     details = models.CharField(max_length=80, verbose_name="Details")
-    value = models.PositiveIntegerField(default=0, verbose_name="Points Earned")
+    value = models.IntegerField(default=0, verbose_name="Points Earned")
     timestamp = models.DateTimeField(default=timezone.now, verbose_name="Timestamp")
     
     def __str__(self):
         return '{}: {}[{}]'.format(self.value, self.details, self.timestamp)
-# Common ################################################################################
-#########################################################################################
 
 #########################################################################################
 # Abstract Models #######################################################################
@@ -79,10 +61,8 @@ class BaseModel(models.Model):
         self.visible = not self.visible
         self.save()
     def update(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        [setattr(self, k, v) for k, v in kwargs.items() if hasattr(self, k)]
         self.save()
-    
     class Meta:
         abstract = True
 
@@ -93,12 +73,10 @@ class CheckedModel(models.Model):
         abstract = True
         
 class ScoredModel(BaseModel):
-    point_value = models.PositiveIntegerField(default=100, verbose_name="Point Value")
+    point_value = models.IntegerField(default=100, verbose_name="Point Value")
         
     def earn(self):
-        points = Points(team=self.team, value=self.point_value, details=self)
-        points.save()
-        
+        Points(team=self.team, value=self.point_value, details=self).save()
     class Meta:
         abstract = True
 
@@ -110,7 +88,6 @@ class ActionModel(ScoredModel):
     def complete(self):
         self.update(completed=True, visible=False, timestamp=timezone.now())
         self.earn()
-    
     class Meta:
         abstract = True
 
@@ -127,10 +104,17 @@ class CheckModel(ScoredModel):
 #########################################################################################
 # Classes ###############################################################################
 class Host(BaseModel, CheckedModel):
+    os_choices = [(i, i) for i in [
+        'Windows XP', 'Windows Vista', 'Windows 7', 'Windows 8', 'Windows 10',
+        'Windows Server 2003', 'Windows Server 2008', 'Windows Server 2012',
+        'Windows - Other', 'Ubuntu Linux', 'Kali Linux', 'CentOS Linux',
+        'Linux - Other', 'Other',
+    ]]
+
     name = models.CharField(max_length=40, verbose_name="Host Description")
     ip = models.GenericIPAddressField(verbose_name="IP Address")
     hostname = models.CharField(max_length=80, blank=True, verbose_name="Hostname")
-    os = models.CharField(max_length=80, blank=True, choices=[(i, i) for i in OS_CHOICES], verbose_name="Operating System")
+    os = models.CharField(max_length=80, blank=True, choices=os_choices, verbose_name="Operating System")
     
     @property
     def last_checked(self):
@@ -147,8 +131,13 @@ class Host(BaseModel, CheckedModel):
         permissions = [('view_host', 'Can view host')]
 
 class Service(CheckedModel, ScoredModel):
+    protocol_choices = [(i, i) for i in [
+        'Active Directory', 'DNS', 'FTP', 'HTTP', 'NFS', 'SMB', 'MySQL', 'SSH',
+        'Telnet',
+    ]]
+    
     host = models.ForeignKey(Host, on_delete=models.CASCADE, verbose_name='Host System')
-    protocol = models.CharField(max_length=20, choices=[(i, i) for i in PROTOCOL_CHOICES], verbose_name='Protocol')
+    protocol = models.CharField(max_length=20, choices=protocol_choices, verbose_name='Protocol')
     port = models.PositiveIntegerField(verbose_name='Port Number')
     username = models.CharField(max_length=20, default='username', verbose_name='Username')
     password = models.CharField(max_length=40, default='password', verbose_name='Password')
