@@ -1,7 +1,7 @@
-from core.forms import Form
+from core.forms import ModelForm
 from .models import Host, Service, Inject, Task
 
-class HostForm(Form):
+class HostForm(ModelForm):
     redirect_url = 'system:all'
     class Meta:
         model = Host
@@ -9,7 +9,7 @@ class HostForm(Form):
             'team', 'ip', 'name', 'hostname', 'os'
         ]
 
-class ServiceForm(Form):
+class ServiceForm(ModelForm):
     redirect_url = 'system:all'
     hidden_fields = ['team']
     class Meta:
@@ -18,7 +18,7 @@ class ServiceForm(Form):
             'host', 'team', 'protocol', 'port', 'point_value'
         ]
         
-class InjectForm(Form):
+class InjectForm(ModelForm):
     redirect_url = 'inject:all'
     class Meta:
         model = Inject
@@ -26,7 +26,7 @@ class InjectForm(Form):
             'team', 'subject', 'details', 'available', 'deadline', 'point_value'
         ]
         
-class TaskForm(Form):
+class TaskForm(ModelForm):
     redirect_url = 'task:all'
     class Meta:
         model = Task

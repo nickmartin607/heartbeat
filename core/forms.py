@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions
-from crispy_forms.layout import Layout, Field, Submit, HTML
+from crispy_forms.layout import Layout, Field, Submit, HTML, Div
     
     
 def build_helper():
@@ -40,8 +40,8 @@ class BaseForm(forms.Form):
             form_button_misc(url=reverse(self.redirect_url))
         ] + extra_buttons
         return FormActions(*actions)
-        
-class Form(BaseForm, forms.ModelForm):
+    
+class ModelForm(BaseForm, forms.ModelForm):
     def build_buttons(self):
         extra_buttons = []
         try:
@@ -52,5 +52,4 @@ class Form(BaseForm, forms.ModelForm):
             extra_buttons = [form_button_misc(url=delete_url, label='Delete')]
         except:
             pass
-        return super(Form, self).build_buttons(extra_buttons)
-        
+        return super(ModelForm, self).build_buttons(extra_buttons)
