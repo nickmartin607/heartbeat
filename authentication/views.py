@@ -35,8 +35,5 @@ def Passwd(request):
         form = PasswdForm(request.user)
     return render(request, 'form.html', {'form': form, 'heading': heading})
 
-def Error401(request):
-    return render(request, '401.html')
-
 def Error404(request):
     return render(request, '404.html')

@@ -28,25 +28,25 @@ def ModifyView(request, model, model_form, id):
     return render(request, 'form.html', data)
 
 @has_permission('delete')
-def DeleteView(request, model, id, redirect_url):
+def DeleteView(request, model, id, redirect_url=None):
     instance = get_object_or_404(model, pk=id)
     instance.delete()
-    return redirect(redirect_url)
+    return redirect(redirect_url or '{}:all'.format(model.lower()))
 
 @has_permission('modify')
-def ToggleView(request, model, id, redirect_url):
+def ToggleView(request, model, id, redirect_url=None):
     instance = get_object_or_404(model, pk=id)
     instance.toggle()
-    return redirect(redirect_url)
+    return redirect(redirect_url or '{}:all'.format(model.lower()))
     
 @has_permission('modify')
-def CheckView(request, model, id, redirect_url):
+def CheckView(request, model, id, redirect_url=None):
     instance = get_object_or_404(model, pk=id)
     instance.execute_check()
-    return redirect(redirect_url)
+    return redirect(redirect_url or '{}:all'.format(model.lower()))
         
 @has_permission('modify')
-def CompleteView(request, model, id, redirect_url):
+def CompleteView(request, model, id, redirect_url=None):
     instance = get_object_or_404(model, pk=id)
     instance.complete()
-    return redirect(redirect_url)
+    return redirect(redirect_url or '{}:all'.format(model.lower()))

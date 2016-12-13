@@ -8,9 +8,7 @@ from .models import *
 from .forms import *
 from .tasks import *
 
-################################################################################
-# Homepage
-################################################################################
+
 @login_required
 def Index(request):
     if request.user.is_staff:
@@ -28,12 +26,13 @@ def Index(request):
         }
     data['teams'] = Team.objects.order_by('name')
     return render(request, template, data)
-################################################################################
-# Listings
-################################################################################
+
 @has_permission('view', Host)
 def SystemList(request):
-    return render(request, 'models/systems.html', {'hosts': Host.objects.order_by('ip')})
+    data = {
+        'hosts': Host.objects.order_by('ip'),
+    }
+    return render(request, 'models/systems.html', data)
 
 @has_permission('view', Inject)
 def InjectList(request):
@@ -59,64 +58,16 @@ def TaskList(request):
         'form': form,
     }
     return render(request, 'models/tasks.html', data)
-################################################################################
-# Create
-################################################################################
-def HostAdd(request):
-    return AddView(request, Host, HostForm)
+
 def ServiceAdd(request, hid):
     host = get_object_or_404(Host, pk=hid)
-    # try:
-        # host = Host.objects.get(pk=hid)
     initial = {'host': host, 'team': host.team}
     return AddView(request, Service, ServiceForm, initial)
-    # except:
-        # return redirect('404')
-def InjectAdd(request):
-    return AddView(request, Inject, InjectForm)
-def TaskAdd(request):
-    return AddView(request, Task, TaskForm)
-################################################################################
-# Modify
-################################################################################
-def HostModify(request, id):
-    return ModifyView(request, Host, HostForm, id)
-def ServiceModify(request, id):
-    return ModifyView(request, Service, ServiceForm, id)
-def InjectModify(request, id):
-    return ModifyView(request, Inject, InjectForm, id)
-################################################################################
-# Delete
-################################################################################
-def HostDelete(request, id):
-    return DeleteView(request, Host, id, 'system:all')
-def ServiceDelete(request, id):
-    return DeleteView(request, Service, id, 'system:all')
-def InjectDelete(request, id):
-    return DeleteView(request, Inject, id, 'inject:all')
-################################################################################
-# Toggle
-################################################################################
-def HostToggle(request, id):
-    return ToggleView(request, Host, id, 'system:all')
-def ServiceToggle(request, id):
-    return ToggleView(request, Service, id, 'system:all')
-def InjectToggle(request, id):
-    return ToggleView(request, Inject, id, 'inject:all')
-################################################################################
-# Check
-################################################################################
-def CheckHost(request, id):
-    return CheckView(request, Host, id, 'system:all')
-def CheckService(request, id):
-    return CheckView(request, Service, id, 'system:all')
-def CheckServices(request):
+
+def SystemCheckAll(request):
+    for host in Host.objects.filter(visible=True):
+        host.execute_check()
     for service in Service.objects.filter(visible=True):
         service.execute_check()
     return redirect('system:all')
     
-################################################################################
-# Complete
-################################################################################
-def CompleteInject(request, id):
-    return CompleteView(request, Inject, id, 'inject:all')
